@@ -52,6 +52,28 @@ function switchToChinese() {
   refreshGreeter()
 }
 
+function farewellText(period: Period) {
+  if (period === 'morning') return 'Have a great day'
+  if (period === 'afternoon') return 'Have a great afternoon'
+  return 'Good night'
+}
+
+interface Farewell {
+  farewell(name: string): string
+}
+
+function makeFarewell(clock: Clock): Farewell {
+  return { farewell: (name) => `${farewellText(clock.period)}, ${name}!` }
+}
+
+// 和 refreshGreeter 逐行一样的形状——farewell 也依赖 clock，也需要一个
+// "clock 变了就手动同步"的函数。这不是巧合，是手写依赖管理时几乎躲不掉的复制。
+let farewell: Farewell | undefined
+
+function refreshFarewell() {
+  farewell = clock ? makeFarewell(clock) : undefined
+}
+
 type GreetListener = (name: string) => void
 const greetListeners: GreetListener[] = []
 
@@ -77,6 +99,14 @@ function app() {
   emitGreet('Alex')
 }
 
+function appFarewell() {
+  if (!farewell) {
+    console.log('[App] farewell unavailable, skip farewell')
+    return
+  }
+  console.log('[App]', farewell.farewell('Alex'))
+}
+
 function logger(name: string) {
   console.log(`[LOG] greeted ${name}`)
 }
@@ -84,18 +114,25 @@ function logger(name: string) {
 onGreet(logger)
 
 app() // clock 还没加载，greeter 也就没法用
+appFarewell() // 同理，farewell 也没法用
 
 loadClock()
-refreshGreeter() // 别忘了：clock 一变化就要手动刷新 greeter，没有任何机制替你做这件事
+refreshGreeter()  // clock 一变化，两个依赖方都要手动刷新——
+refreshFarewell() // 这一行是上一步 refreshGreeter() 的原样复制，只是换了个名字
 app()
+appFarewell()
 
 switchToChinese()
 app()
 
 unloadClock()
-refreshGreeter() // 卸载也要记得刷新，忘了 greeter 就会停在过期状态，继续用旧的 clock
+refreshGreeter()  // 卸载同样要刷新两次，忘记其中一个，那一个就会停在过期状态
+refreshFarewell()
 app()
+appFarewell()
 
 loadClock('evening')
 refreshGreeter()
+refreshFarewell()
 app()
+appFarewell()
