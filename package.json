@@ -1,0 +1,18 @@
+{
+  "name": "cordis-from-zero",
+  "version": "0.1.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demo:vanilla": "tsx vanilla/index.ts",
+    "demo:cordis": "tsx cordis/index.ts"
+  },
+  "dependencies": {
+    "cordis": "^4.0.0-rc.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.23.12",
+    "typescript": "^5.5.4"
+  }
+}
