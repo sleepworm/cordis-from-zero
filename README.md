@@ -1,12 +1,12 @@
 # Cordis From Zero
 
-一个打招呼程序，从最朴素的写法开始，逐步加需求、逐步撞见痛点，再看 [Cordis](https://cordis.js.org) 怎么解决同一批痛点。
+一个打招呼程序，从最朴素的写法开始，逐步加需求、逐步撞见痛点，再看 [Cordis](https://github.com/cordiverse/cordis) 怎么解决同一批痛点。
 
 不讲"Cordis 是什么"，讲"不用它会怎样、用了省了什么"。
 
 ## 怎么读
 
-- **只读文章**：跟着半格文章走，看问题、看代码片段、看结论。
+- **只读文章**：跟着[文章](https://www.bange.life/tech/collections/cordis-from-zero)走，看问题、看代码片段、看结论。
 - **跑代码**：`git clone` 本仓库，`git checkout <tag>` 到任意一步，`npm install && npm run demo`。
 - **看 Diff**（推荐）：`git diff v0.1.2 v0.1.3`，直接看某一步真正改了什么。
 
@@ -16,9 +16,9 @@
 
 - `vanilla/`：不用任何框架，纯手写，痛点在这条线里自然长出来。
 - `cordis/`：同样的需求，改用真实的 `cordis` npm 包实现，逐条对照 `vanilla/` 消失了什么代码。
-- `docs/`：每个 tag 配一篇短文（问题 → 代码 → 一句后果 / 一句对照结论），是半格文章的原始素材。
+- `docs/`：每个 tag 配一篇短文（问题 → 代码 → 一句后果 / 一句对照结论）。
 
-`0.1.x` 是 vanilla 线，按顺序累积（后一步在前一步代码基础上加需求，不重开场景）。`0.2.x` 是 cordis 线，逐条对照同一顺序的需求。两条线都从 `.1` 开始编号，不设 `.0`。
+`0.1.x` 是 vanilla 线，按顺序累积（后一步在前一步代码基础上加需求，不重开场景）。`0.2.x` 是 cordis 线，逐条对照同一顺序的需求。
 
 | Tag | 需求 | 这一步在解决什么问题 |
 |---|---|---|
@@ -30,9 +30,3 @@
 | `v0.2.2` | 同 `v0.1.2`，改用 Cordis | 对照：`ctx.on()` 卸载时自动清理，退订不再是要记住的事 |
 | `v0.2.3` | 同 `v0.1.3`，改用 Cordis | 对照：`static inject = ['clock']` 一行，取代一整套 ready/通知逻辑 |
 | `v0.2.4` | 同 `v0.1.4`，改用 Cordis | 对照：加一行 `static inject`，不是复制一份状态机——全篇收尾论点：边际成本常数 vs 线性 |
-
-## 之后
-
-这个仓库只回答"Cordis 有没有用、用在哪"。如果想知道 Cordis 内部是怎么实现出这些效果的（Context / Service Registry / Plugin / Effect / Event / 响应式依赖 / 失败隔离怎么写出来），见后续的 `mini-cordis` 仓库——那里从零实现一个最小的 Cordis 内核。
-
-先用（这个仓库），再造（`mini-cordis`）。
